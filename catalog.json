@@ -1,0 +1,138 @@
+[
+  {
+    "_id": "000000000000000000000001",
+    "name": "Studio Wireless Keyboard",
+    "description": "Compact keys, tactile feedback, and room to create.",
+    "category": "Workspace",
+    "price": 2499,
+    "stock": 24,
+    "art": "keyboard",
+    "color": "#e9e5dd",
+    "tag": "Bestseller",
+    "shop": {
+      "_id": "100000000000000000000001",
+      "name": "Form Studio"
+    },
+    "rating": 4.8,
+    "reviewCount": 42
+  },
+  {
+    "_id": "000000000000000000000002",
+    "name": "Arc Task Lamp",
+    "description": "Warm light, right where you need it. For late ideas and early starts.",
+    "category": "Home & Living",
+    "price": 1899,
+    "stock": 18,
+    "art": "lamp",
+    "color": "#e2e8dd",
+    "tag": "New arrival",
+    "shop": {
+      "_id": "100000000000000000000002",
+      "name": "Slow Living Co."
+    },
+    "rating": 4.6,
+    "reviewCount": 28
+  },
+  {
+    "_id": "000000000000000000000003",
+    "name": "Everyday Notes — Set of 3",
+    "description": "Good paper for rough ideas. Three lay-flat notebooks in earthy shades.",
+    "category": "Everyday",
+    "price": 549,
+    "stock": 60,
+    "art": "notebook",
+    "color": "#eadfd4",
+    "tag": "",
+    "shop": {
+      "_id": "100000000000000000000003",
+      "name": "Field Supply"
+    },
+    "rating": 4.9,
+    "reviewCount": 16
+  },
+  {
+    "_id": "000000000000000000000004",
+    "name": "Connect USB-C Hub",
+    "description": "Seven useful ports in one compact aluminum body.",
+    "category": "Workspace",
+    "price": 2199,
+    "stock": 16,
+    "art": "hub",
+    "color": "#dfe5e8",
+    "tag": "",
+    "shop": {
+      "_id": "100000000000000000000001",
+      "name": "Form Studio"
+    },
+    "rating": 4.3,
+    "reviewCount": 35
+  },
+  {
+    "_id": "000000000000000000000005",
+    "name": "Roam Insulated Bottle",
+    "description": "Coffee at sunrise, cold water at noon. Your 600ml daily companion.",
+    "category": "Everyday",
+    "price": 999,
+    "stock": 35,
+    "art": "bottle",
+    "color": "#e4e7de",
+    "tag": "Community favorite",
+    "shop": {
+      "_id": "100000000000000000000002",
+      "name": "Slow Living Co."
+    },
+    "rating": 4.7,
+    "reviewCount": 61
+  },
+  {
+    "_id": "000000000000000000000006",
+    "name": "Form Desk Mat",
+    "description": "A softer landing for your workday, with a smooth felt finish.",
+    "category": "Workspace",
+    "price": 799,
+    "stock": 28,
+    "art": "mat",
+    "color": "#e5ded5",
+    "tag": "",
+    "shop": {
+      "_id": "100000000000000000000003",
+      "name": "Field Supply"
+    },
+    "rating": 4.5,
+    "reviewCount": 19
+  },
+  {
+    "_id": "000000000000000000000007",
+    "name": "Slow Morning Mug",
+    "description": "A generous ceramic mug with a satin glaze. Make time for a little ritual.",
+    "category": "Home & Living",
+    "price": 649,
+    "stock": 22,
+    "art": "mug",
+    "color": "#e9ded0",
+    "tag": "New arrival",
+    "shop": {
+      "_id": "100000000000000000000001",
+      "name": "Form Studio"
+    },
+    "rating": 4.8,
+    "reviewCount": 23
+  },
+  {
+    "_id": "000000000000000000000008",
+    "name": "Carry Canvas Tote",
+    "description": "From market runs to Monday commutes. Heavyweight cotton, built to come along.",
+    "category": "Everyday",
+    "price": 899,
+    "stock": 19,
+    "art": "tote",
+    "color": "#e3e5df",
+    "tag": "",
+    "shop": {
+      "_id": "100000000000000000000002",
+      "name": "Slow Living Co."
+    },
+    "rating": 4.2,
+    "reviewCount": 12
+  }
+]

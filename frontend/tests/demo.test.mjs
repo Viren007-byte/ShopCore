@@ -1,0 +1,43 @@
+﻿import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+const catalog = JSON.parse((await readFile(new URL('../../catalog.json', import.meta.url), 'utf8')).replace(/^\uFEFF/, ''));
+const source = (await readFile(new URL('../src/api.js', import.meta.url), 'utf8')).replace("import catalog from '../../catalog.json';", `const catalog = ${JSON.stringify(catalog)};`).replace('import.meta.env.VITE_API_URL', 'undefined');
+const values = new Map([['shopcore-demo', 'true']]);
+globalThis.localStorage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, String(value)) };
+const { request } = await import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
+test('demo authentication, stock validation, persisted checkout and order history', async () => {
+  assert.equal((await request('/products')).items.length, 8);
+  await assert.rejects(request('/orders'), /sign in/);
+  await assert.rejects(request('/auth/login', { body: JSON.stringify({ email: 'demo@shopcore.test', password: 'wrong' }) }), /credentials/);
+  const session = await request('/auth/login', { body: JSON.stringify({ email: 'demo@shopcore.test', password: 'ShopCore@123' }) });
+  localStorage.setItem('token', session.token);
+  assert.equal((await request('/auth/me')).email, 'demo@shopcore.test');
+  const product = catalog[0];
+  const before = await request('/orders');
+  await assert.rejects(request('/orders', { method: 'POST', body: JSON.stringify({ items: [{ product: product._id, quantity: product.stock + 1 }] }) }), /quantity/);
+  assert.equal((await request('/products')).items[0].stock, product.stock);
+  const order = await request('/orders', { method: 'POST', body: JSON.stringify({ items: [{ product: product._id, quantity: 2 }] }) });
+  assert.equal(order.total, product.price * 2);
+  assert.equal((await request('/orders')).length, before.length + 1);
+  assert.equal((await request('/products')).items[0].stock, product.stock - 2);
+});
+
+test('demo seller isolation, listing management and admin moderation', async () => {
+  const login = async email => { const session = await request('/auth/login', { body: JSON.stringify({ email, password: 'ShopCore@123' }) }); localStorage.setItem('token', session.token); };
+  await login('seller@shopcore.test');
+  const own = await request('/manage/products');
+  assert.equal(own.shops.length, 1);
+  const otherProduct = catalog.find(p => p.shop._id !== own.shops[0]._id);
+  await assert.rejects(request(`/products/${otherProduct._id}`, { method: 'PATCH', body: JSON.stringify({ price: 1 }) }), /another seller/);
+  const created = await request('/products', { method: 'POST', body: JSON.stringify({ name: 'Demo listing', shop: own.shops[0]._id, price: 100, stock: 3 }) });
+  assert.equal((await request('/manage/products')).products.find(p => p._id === created._id).price, 100);
+  await request(`/products/${created._id}`, { method: 'PATCH', body: JSON.stringify({ active: false }) });
+  assert.ok(!(await request('/products')).items.some(p => p._id === created._id));
+  await login('admin@shopcore.test');
+  assert.equal((await request('/manage/products')).shops.length, 3);
+  await request(`/products/${created._id}`, { method: 'PATCH', body: JSON.stringify({ active: true }) });
+  assert.ok((await request('/products')).items.some(p => p._id === created._id));
+  await login('demo@shopcore.test');
+  await assert.rejects(request('/manage/products'), /Seller access/);
+});
